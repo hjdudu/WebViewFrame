@@ -8,6 +8,8 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.hjdudu.webview.databinding.ActivityWebviewBinding;
 import com.hjdudu.webview.utils.Constants;
@@ -24,8 +26,6 @@ public class WebViewActivity extends AppCompatActivity {
         String url = getIntent().getStringExtra(Constants.URL);
         boolean isShowActionBar = getIntent().getBooleanExtra(Constants.IS_SHOW_ACTION_BAR, true);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_webview);
-        mBinding.webview.getSettings().setJavaScriptEnabled(true);
-        mBinding.webview.loadUrl(url);
 
         mBinding.actionBar.setVisibility(isShowActionBar ? View.VISIBLE : View.GONE);
         mBinding.title.setText(title);
@@ -33,13 +33,35 @@ public class WebViewActivity extends AppCompatActivity {
         mBinding.back.setOnClickListener(v -> {
             finish();
         });
+
+
+        //添加fragment
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        WebViewFragment webViewFragment = WebViewFragment.newInstance(url, true);
+        ft.replace(R.id.web_view_fragment, webViewFragment).commit();
     }
 
-
-    public void setBackImage(Bitmap bitmap){
+    /**
+     * 设置返回值按钮
+     *
+     * @param bitmap
+     */
+    public void setBackImage(Bitmap bitmap) {
         mBinding.back.setImageBitmap(bitmap);
     }
-    public void setBackImage(Drawable drawable){
+
+    /**
+     * 设置返回值按钮
+     *
+     * @param drawable
+     */
+    public void setBackImage(Drawable drawable) {
         mBinding.back.setImageDrawable(drawable);
+    }
+
+
+    public void updateTitle(String title) {
+        mBinding.title.setText(title);
     }
 }
