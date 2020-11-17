@@ -1,11 +1,10 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.hjdudu.web_view_frame"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         versionCode rootProject.versionCode
@@ -18,18 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    dataBinding {
-        enabled true
-    }
 }
 
 dependencies {
     implementation "androidx.appcompat:appcompat:$rootProject.androidxVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintlayoutVersion"
-    implementation project(path: ':webview')
-
+    api project(path: ':base')
 }
