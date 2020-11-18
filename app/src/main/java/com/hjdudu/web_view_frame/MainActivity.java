@@ -1,6 +1,7 @@
 package com.hjdudu.web_view_frame;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -12,6 +13,7 @@ import android.widget.FrameLayout;
 
 import com.hjdudu.base.autoservice.HJDuduServiceLoader;
 import com.hjdudu.common.autoservice.IWebViewService;
+import com.hjdudu.webview.WebViewFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (iWebViewService != null) {
-                    iWebViewService.startWebViewActivity(MainActivity.this, "HTTPS://www.baidu.com", "百度",true);
+//                    iWebViewService.startWebViewActivity(MainActivity.this, "HTTPS://www.baidu.com", "百度",true);
+                    iWebViewService.startDemoHtml(MainActivity.this,"本地assets","demo.html");
                 }
             }
         });
@@ -38,7 +41,10 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = supportFragmentManager.beginTransaction();
         if (iWebViewService!=null){
 
-            transaction.replace(R.id.web_view_fragment,iWebViewService.getWebViewFragment("HTTPS://www.baidu.com",true)).commit();
+            WebViewFragment webViewFragment = (WebViewFragment )iWebViewService.getWebViewFragment("HTTPS://www.baidu.com", true);
+
+//            webViewFragment.addJavascriptInterface("hjduduwebview");
+            transaction.replace(R.id.web_view_fragment, webViewFragment).commit();
         }
 
     }

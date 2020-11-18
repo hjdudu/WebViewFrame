@@ -30,4 +30,6 @@ dependencies {
     implementation rootProject.lottie
     api rootProject.smartrefresh
 
+    api 'com.google.code.gson:gson:2.8.2'
+
 }

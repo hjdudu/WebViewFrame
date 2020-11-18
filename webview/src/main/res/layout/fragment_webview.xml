@@ -6,12 +6,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <WebView
+        <com.hjdudu.webview.webviewprocess.BaseWebView
             android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </WebView>
+        </com.hjdudu.webview.webviewprocess.BaseWebView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </layout>

@@ -1,4 +1,4 @@
-package com.hjdudu.webview.webviewclient;
+package com.hjdudu.webview.webviewprocess.webviewclient;
 
 import android.graphics.Bitmap;
 import android.util.Log;

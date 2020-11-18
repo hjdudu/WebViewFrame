@@ -1,6 +1,5 @@
 package com.hjdudu.webview;
 
-import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,8 +15,6 @@ import com.hjdudu.base.loadsir.ErrorCallback;
 import com.hjdudu.base.loadsir.LoadingCallback;
 import com.hjdudu.webview.databinding.FragmentWebviewBinding;
 import com.hjdudu.webview.utils.Constants;
-import com.hjdudu.webview.webchromeclient.HJDuduChromeClient;
-import com.hjdudu.webview.webviewclient.HJDuduWebViewClient;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
@@ -59,8 +56,9 @@ public class WebViewFragment extends Fragment implements WebViewCallBack, OnRefr
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_webview, container, false);
+        mBinding.webview.registerWebViewCallBack(this);
 
-        mBinding.webview.getSettings().setJavaScriptEnabled(true);
+//        mBinding.webview.getSettings().setJavaScriptEnabled(true);
         mBinding.webview.loadUrl(mUrl);
 
 
@@ -75,8 +73,9 @@ public class WebViewFragment extends Fragment implements WebViewCallBack, OnRefr
         mBinding.smartRefreshLayout.setEnableRefresh(mCanNativeRefresh);
         mBinding.smartRefreshLayout.setOnRefreshListener(this);
 
-        mBinding.webview.setWebViewClient(new HJDuduWebViewClient(this));
-        mBinding.webview.setWebChromeClient(new HJDuduChromeClient(this));
+//        mBinding.webview.setWebViewClient(new HJDuduWebViewClient(this));
+//        mBinding.webview.setWebChromeClient(new HJDuduChromeClient(this));
+//        WebViewDefaultSettings.getInstance().setSettings(mBinding.webview);
         return mLoadService.getLoadLayout();
     }
 
@@ -120,5 +119,13 @@ public class WebViewFragment extends Fragment implements WebViewCallBack, OnRefr
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         mBinding.webview.reload();
+    }
+
+    /**
+     * 注入到window中
+     * @param name  名称
+     */
+    public void addJavascriptInterface(String name){
+//        mBinding.webview.addJavascriptInterface(name);
     }
 }
