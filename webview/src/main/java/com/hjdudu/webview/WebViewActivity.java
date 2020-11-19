@@ -3,6 +3,7 @@ package com.hjdudu.webview;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import com.hjdudu.webview.utils.Constants;
 
 public class WebViewActivity extends AppCompatActivity {
     private ActivityWebviewBinding mBinding;
+    private WebViewFragment webViewFragment;
 
 
     @Override
@@ -31,16 +33,21 @@ public class WebViewActivity extends AppCompatActivity {
         mBinding.actionBar.setVisibility(isShowActionBar ? View.VISIBLE : View.GONE);
         mBinding.title.setText(title);
 
-        mBinding.back.setOnClickListener(v -> {
-            finish();
-        });
-
 
         //添加fragment
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        WebViewFragment webViewFragment = WebViewFragment.newInstance(url, true, name);
+        webViewFragment = WebViewFragment.newInstance(url, true, name);
         ft.replace(R.id.web_view_fragment, webViewFragment).commit();
+
+
+        mBinding.back.setOnClickListener(v -> {
+            if (webViewFragment.webViewCanGoBack()) {
+                webViewFragment.webViewGoBack();
+            } else {
+                finish();
+            }
+        });
     }
 
     /**
@@ -64,5 +71,14 @@ public class WebViewActivity extends AppCompatActivity {
 
     public void updateTitle(String title) {
         mBinding.title.setText(title);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && webViewFragment.webViewCanGoBack()) {
+            webViewFragment.webViewGoBack();//返回上个页面
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);//退出H5界面
     }
 }

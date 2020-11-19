@@ -135,4 +135,12 @@ public class WebViewFragment extends Fragment implements WebViewCallBack, OnRefr
     public void addJavascriptInterface(String name) {
 //        mBinding.webview.addJavascriptInterface(name);
     }
+
+    public boolean webViewCanGoBack() {
+        return mBinding.webview.canGoBack();
+    }
+
+    public void webViewGoBack() {
+        mBinding.webview.goBack();
+    }
 }
