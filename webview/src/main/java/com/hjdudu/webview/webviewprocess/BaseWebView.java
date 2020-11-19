@@ -1,6 +1,7 @@
 package com.hjdudu.webview.webviewprocess;
 
 import android.content.Context;
+import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -42,9 +43,12 @@ public class BaseWebView extends WebView {
     }
 
     private void init() {
+
+        //初始化建立连接
+        WebViewProcessCommandDispatcher.getInstance().initAidlConnection();
         WebViewDefaultSettings.getInstance().setSettings(this);
-        // 注入到window中
-        addJavascriptInterface(this, "hjduduwebview");
+//        // 注入到window中
+//        addJavascriptInterface(this, "hjduduwebview");
     }
 
     public void registerWebViewCallBack(WebViewCallBack webViewCallBack) {
@@ -54,15 +58,13 @@ public class BaseWebView extends WebView {
 
 
     @JavascriptInterface
-    public void takeNativeAction(final String jsParam) {
+    public void takeNativeAction(final String jsParam) throws RemoteException {
         Log.i(TAG, jsParam);
         if (!TextUtils.isEmpty(jsParam)) {
             JsParam jsParamObject = new Gson().fromJson(jsParam, JsParam.class);
-//            if (jsParamObject != null) {
-//                if ("showToast".equalsIgnoreCase(jsParamObject.name)){
-//
-//                }
-//            }
+            if (jsParamObject != null) {
+                WebViewProcessCommandDispatcher.getInstance().executeCommand(jsParamObject.name, new Gson().toJson(jsParamObject.param), this);
+            }
 
         }
     }
@@ -74,5 +76,16 @@ public class BaseWebView extends WebView {
      */
     public void addJavascriptInterface(String name) {
         addJavascriptInterface(this, name);
+    }
+
+    public void handleCallBack(String callbackname, String response) {
+        if (callbackname != null && response != null) {
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    evaluateJavascript(callbackname, null);
+                }
+            });
+        }
     }
 }

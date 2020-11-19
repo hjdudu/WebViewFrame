@@ -24,6 +24,7 @@ public class WebViewActivity extends AppCompatActivity {
 
         String title = getIntent().getStringExtra(Constants.TITLE);
         String url = getIntent().getStringExtra(Constants.URL);
+        String name = getIntent().getStringExtra(Constants.JAVASCRIPT_INTERFACE_NAME);
         boolean isShowActionBar = getIntent().getBooleanExtra(Constants.IS_SHOW_ACTION_BAR, true);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_webview);
 
@@ -38,7 +39,7 @@ public class WebViewActivity extends AppCompatActivity {
         //添加fragment
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        WebViewFragment webViewFragment = WebViewFragment.newInstance(url, true);
+        WebViewFragment webViewFragment = WebViewFragment.newInstance(url, true, name);
         ft.replace(R.id.web_view_fragment, webViewFragment).commit();
     }
 

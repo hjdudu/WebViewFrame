@@ -1,8 +1,11 @@
 package com.hjdudu.webview.bean;
 
-import org.json.JSONObject;
+
+
+import com.google.gson.JsonObject;
+
 
 public class JsParam {
     public String name;
-    public JSONObject param;
+    public JsonObject param;
 }

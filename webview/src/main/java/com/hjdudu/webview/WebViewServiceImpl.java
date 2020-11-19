@@ -12,26 +12,33 @@ import com.hjdudu.webview.utils.Constants;
 @AutoService({IWebViewService.class})
 public class WebViewServiceImpl implements IWebViewService {
     @Override
-    public void startWebViewActivity(Context context, String url, String title, boolean isShowAction) {
+    public void startWebViewActivity(Context context, String url, String title, boolean isShowAction,String name) {
         if (context != null) {
             Intent intent = new Intent(context, WebViewActivity.class);
             intent.putExtra(Constants.URL, url);
             intent.putExtra(Constants.TITLE, title);
             intent.putExtra(Constants.IS_SHOW_ACTION_BAR, isShowAction);
+            intent.putExtra(Constants.JAVASCRIPT_INTERFACE_NAME,name);
             context.startActivity(intent);
         }
     }
 
     @Override
     public Fragment getWebViewFragment(String url, boolean canNativeRefresh) {
-        return WebViewFragment.newInstance(url, canNativeRefresh);
+        return WebViewFragment.newInstance(url, canNativeRefresh, "");
     }
 
     @Override
-    public void startDemoHtml(Context context, String title, String fileName) {
+    public Fragment getWebViewFragmentWithJavascriptInterface(String url, boolean canNativeRefresh) {
+        return WebViewFragment.newInstance(url, canNativeRefresh,"");
+    }
+
+    @Override
+    public void startDemoHtml(Context context, String title, String fileName,String name) {
         Intent intent = new Intent(context, WebViewActivity.class);
         intent.putExtra(Constants.TITLE, title);
         intent.putExtra(Constants.URL, Constants.ANDROID_ASSET_URI + fileName);
+        intent.putExtra(Constants.JAVASCRIPT_INTERFACE_NAME,name);
         context.startActivity(intent);
 
     }

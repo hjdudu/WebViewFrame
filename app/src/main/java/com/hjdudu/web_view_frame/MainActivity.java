@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (iWebViewService != null) {
 //                    iWebViewService.startWebViewActivity(MainActivity.this, "HTTPS://www.baidu.com", "百度",true);
-                    iWebViewService.startDemoHtml(MainActivity.this,"本地assets","demo.html");
+                    iWebViewService.startDemoHtml(MainActivity.this,"本地assets","demo.html","hjduduwebview");
                 }
             }
         });
@@ -41,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = supportFragmentManager.beginTransaction();
         if (iWebViewService!=null){
 
-            WebViewFragment webViewFragment = (WebViewFragment )iWebViewService.getWebViewFragment("HTTPS://www.baidu.com", true);
+            WebViewFragment webViewFragment =
+                    (WebViewFragment )iWebViewService.getWebViewFragmentWithJavascriptInterface(
+                            "HTTPS://www.baidu.com", true);
 
 //            webViewFragment.addJavascriptInterface("hjduduwebview");
             transaction.replace(R.id.web_view_fragment, webViewFragment).commit();

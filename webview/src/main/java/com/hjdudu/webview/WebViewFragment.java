@@ -1,6 +1,7 @@
 package com.hjdudu.webview;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 public class WebViewFragment extends Fragment implements WebViewCallBack, OnRefreshListener {
+    private static String name;
     private String mUrl;
     private FragmentWebviewBinding mBinding;
     private LoadService mLoadService;
@@ -32,7 +34,8 @@ public class WebViewFragment extends Fragment implements WebViewCallBack, OnRefr
 
     private static final String TAG = WebViewFragment.class.getSimpleName();
 
-    public static WebViewFragment newInstance(String url, boolean canNativeRefresh) {
+    public static WebViewFragment newInstance(String url, boolean canNativeRefresh, String name) {
+        WebViewFragment.name = name;
         WebViewFragment webViewFragment = new WebViewFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.URL, url);
@@ -56,6 +59,9 @@ public class WebViewFragment extends Fragment implements WebViewCallBack, OnRefr
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_webview, container, false);
+        if (!TextUtils.isEmpty(name)) {
+            mBinding.webview.addJavascriptInterface(name);
+        }
         mBinding.webview.registerWebViewCallBack(this);
 
 //        mBinding.webview.getSettings().setJavaScriptEnabled(true);
@@ -123,9 +129,10 @@ public class WebViewFragment extends Fragment implements WebViewCallBack, OnRefr
 
     /**
      * 注入到window中
-     * @param name  名称
+     *
+     * @param name 名称
      */
-    public void addJavascriptInterface(String name){
+    public void addJavascriptInterface(String name) {
 //        mBinding.webview.addJavascriptInterface(name);
     }
 }

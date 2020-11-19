@@ -10,5 +10,6 @@
             android:name=".WebViewActivity"
             android:process=":hjduduwebview"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <service android:name=".mainprocess.MainProcessCommandService" />
     </application>
 </manifest>
